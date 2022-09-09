@@ -20,6 +20,9 @@ function getChildrens($people){
     }
     return $result;
 }
+
+
+
 function getParent($peoples, $people){
 if ($people == null) return null;
     foreach ($peoples as $parent){
@@ -78,6 +81,7 @@ foreach($peoples as $people){
         <?php
         foreach ($peoples as $people){
             $parent=getParent($peoples, $people);
+            if (empty($parent)) continue;
 
                 $parentOfParent=getParent($peoples, $parent);
                 echo '<tr>';
@@ -86,7 +90,13 @@ foreach($peoples as $people){
                 } else
                     echo '<td>'.$parentOfParent -> nimi.'</td>';
                     echo '<td>'. $parent -> nimi.'</td>';
-                    echo '<td>'. $people -> nimi.'</td>';
+                    if ((2022 - ($people -> attributes() -> synd)) == 1){
+                        echo '<td style="background: red;">'. $people -> nimi.'</td>';
+                    }
+                    else{
+                        echo '<td>'. $people -> nimi.'</td>';
+                    }
+
                     echo '<td>'. $people -> attributes()->synd.'</td>';
 
                     $yearNow=(int)date("Y");
@@ -99,5 +109,14 @@ foreach($peoples as $people){
         ?>
     </tr>
 </table>
+<h2>Выводи имена всех людей родились с 1999 по 2022 года</h2>
+<?php
+foreach ($peoples as $people){
+    if (($people -> attributes() -> synd) > 2000 && ($people -> attributes() -> synd) < 2023){
+        echo '<li>'. $people -> nimi.'</li>';
+    }
+}
+
+?>
 </body>
 </html>
